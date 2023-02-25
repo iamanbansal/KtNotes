@@ -7,21 +7,24 @@ import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.server.application.*
 
 fun Application.configureSecurity() {
-    
+
     authentication {
-            jwt {
-                val jwtAudience = this@configureSecurity.environment.config.property("jwt.audience").getString()
-                realm = this@configureSecurity.environment.config.property("jwt.realm").getString()
-                verifier(
-                    JWT
-                        .require(Algorithm.HMAC256("secret"))
-                        .withAudience(jwtAudience)
-                        .withIssuer(this@configureSecurity.environment.config.property("jwt.domain").getString())
-                        .build()
-                )
-                validate { credential ->
-                    if (credential.payload.audience.contains(jwtAudience)) JWTPrincipal(credential.payload) else null
-                }
+
+        val config = this@configureSecurity.environment.config
+        jwt {
+            val jwtAudience = config.property("jwt.audience").getString()
+            val secret = config.property("key.secret").getString()
+            val domain = config.property("jwt.domain").getString()
+            verifier(
+                JWT
+                    .require(Algorithm.HMAC256(secret))
+                    .withAudience(jwtAudience)
+                    .withIssuer(domain)
+                    .build()
+            )
+            validate { credential ->
+                if (credential.payload.audience.contains(jwtAudience)) JWTPrincipal(credential.payload) else null
             }
         }
+    }
 }
