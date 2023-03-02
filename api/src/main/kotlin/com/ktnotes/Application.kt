@@ -1,11 +1,15 @@
 package com.ktnotes
 
 import com.ktnotes.db.DBConfig
+import com.ktnotes.feature.auth.AuthController
 import com.ktnotes.feature.auth.UserDaoImpl
-import io.ktor.server.application.*
-import com.ktnotes.plugins.*
-import com.ktnotes.security.token.TokenConfig
+import com.ktnotes.plugins.configureDatabases
+import com.ktnotes.plugins.configureRouting
+import com.ktnotes.plugins.configureSecurity
+import com.ktnotes.plugins.configureSerialization
 import com.ktnotes.security.token.JWTServiceImp
+import com.ktnotes.security.token.TokenConfig
+import io.ktor.server.application.Application
 import io.ktor.server.config.ApplicationConfig
 
 fun main(args: Array<String>): Unit =
@@ -16,11 +20,12 @@ fun Application.module() {
     val userDao = UserDaoImpl()
     val tokenService = JWTServiceImp(config, userDao)
     val dbConfig = getDBConfig(this.environment.config)
+    val authController = AuthController(userDao, tokenService)
 
     configureSerialization()
     configureDatabases(dbConfig)
     configureSecurity(tokenService)
-    configureRouting(userDao, tokenService)
+    configureRouting(authController)
 }
 
 
