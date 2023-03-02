@@ -2,24 +2,25 @@ package com.ktnotes.feature.auth
 
 import com.ktnotes.entity.UserTable
 import com.ktnotes.feature.auth.model.User
+import com.ktnotes.security.hashing.SaltedHash
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 interface UserDao {
-    fun insertUser(authRequest: AuthRequest): User?
+    fun insertUser(authRequest: AuthRequest, saltedHash: SaltedHash): User?
     fun findByUUID(id: UUID): User?
     fun isEmailExist(email: String): Boolean
 }
 
 class UserDaoImpl : UserDao {
-    override fun insertUser(authRequest: AuthRequest): User? = transaction {
+    override fun insertUser(authRequest: AuthRequest, saltedHash: SaltedHash): User? = transaction {
         return@transaction UserTable.insert {
             it[name] = authRequest.name
             it[email] = authRequest.email
-            it[password] = authRequest.password
-            it[salt] = authRequest.password
+            it[password] = saltedHash.hash
+            it[salt] = saltedHash.salt
         }.resultedValues?.firstOrNull()?.let { User.fromResultRow(it) }
     }
 
