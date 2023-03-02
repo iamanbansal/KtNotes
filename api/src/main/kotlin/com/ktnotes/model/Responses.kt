@@ -1,4 +1,4 @@
-package com.ktnotes
+package com.ktnotes.model
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall

@@ -1,5 +1,6 @@
 package com.ktnotes.feature.auth
 
+import com.ktnotes.exceptions.BadRequestException
 import com.ktnotes.exceptions.TransactionExceptions
 import com.ktnotes.feature.auth.model.AuthResponse
 import com.ktnotes.security.token.JWTServiceImp
@@ -9,6 +10,10 @@ import com.ktnotes.security.token.TokenService
 class AuthController(private val userDao: UserDao, private val tokenService: TokenService) {
 
     fun register(authRequest: AuthRequest): AuthResponse {
+
+        if (userDao.isEmailExist(authRequest.email)) {
+            throw BadRequestException("User already exist")
+        }
 
         val user = userDao.insertUser(authRequest) ?: throw TransactionExceptions("Problem inserting new user")
 

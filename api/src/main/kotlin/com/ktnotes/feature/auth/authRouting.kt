@@ -1,7 +1,7 @@
 package com.ktnotes.feature.auth
 
 import com.ktnotes.exceptions.BadRequestException
-import com.ktnotes.ok
+import com.ktnotes.model.ok
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
 import io.ktor.server.request.receive

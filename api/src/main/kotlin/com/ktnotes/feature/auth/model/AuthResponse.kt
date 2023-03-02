@@ -1,6 +1,6 @@
 package com.ktnotes.feature.auth.model
 
-import com.ktnotes.Response
+import com.ktnotes.model.Response
 import kotlinx.serialization.Serializable
 
 @Serializable

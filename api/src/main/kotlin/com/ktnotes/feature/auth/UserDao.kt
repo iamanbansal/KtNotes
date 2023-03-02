@@ -5,11 +5,12 @@ import com.ktnotes.feature.auth.model.User
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.util.UUID
+import java.util.*
 
 interface UserDao {
     fun insertUser(authRequest: AuthRequest): User?
     fun findByUUID(id: UUID): User?
+    fun isEmailExist(email: String): Boolean
 }
 
 class UserDaoImpl : UserDao {
@@ -27,6 +28,12 @@ class UserDaoImpl : UserDao {
             .firstOrNull()?.let {
                 User.fromResultRow(it)
             }
+    }
+
+    override fun isEmailExist(email: String): Boolean {
+        return transaction {
+            UserTable.select { UserTable.email eq email }.firstOrNull() != null
+        }
     }
 
 }
