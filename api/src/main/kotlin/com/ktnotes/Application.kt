@@ -7,6 +7,7 @@ import com.ktnotes.plugins.configureDatabases
 import com.ktnotes.plugins.configureRouting
 import com.ktnotes.plugins.configureSecurity
 import com.ktnotes.plugins.configureSerialization
+import com.ktnotes.security.hashing.BCryptHashingService
 import com.ktnotes.security.token.JWTServiceImp
 import com.ktnotes.security.token.TokenConfig
 import io.ktor.server.application.Application
@@ -20,7 +21,8 @@ fun Application.module() {
     val userDao = UserDaoImpl()
     val tokenService = JWTServiceImp(config, userDao)
     val dbConfig = getDBConfig(this.environment.config)
-    val authController = AuthController(userDao, tokenService)
+    val hashingService = BCryptHashingService()
+    val authController = AuthController(userDao, tokenService, hashingService)
 
     configureSerialization()
     configureDatabases(dbConfig)

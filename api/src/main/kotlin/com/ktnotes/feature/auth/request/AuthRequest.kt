@@ -1,4 +1,4 @@
-package com.ktnotes.feature.auth
+package com.ktnotes.feature.auth.request
 
 import kotlinx.serialization.Serializable
 

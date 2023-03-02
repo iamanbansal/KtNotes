@@ -2,6 +2,7 @@ package com.ktnotes.feature.auth
 
 import com.ktnotes.entity.UserTable
 import com.ktnotes.feature.auth.model.User
+import com.ktnotes.feature.auth.request.AuthRequest
 import com.ktnotes.security.hashing.SaltedHash
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
@@ -12,6 +13,7 @@ interface UserDao {
     fun insertUser(authRequest: AuthRequest, saltedHash: SaltedHash): User?
     fun findByUUID(id: UUID): User?
     fun isEmailExist(email: String): Boolean
+    fun getUserByEmail(email: String): User?
 }
 
 class UserDaoImpl : UserDao {
@@ -34,6 +36,14 @@ class UserDaoImpl : UserDao {
     override fun isEmailExist(email: String): Boolean {
         return transaction {
             UserTable.select { UserTable.email eq email }.firstOrNull() != null
+        }
+    }
+
+    override fun getUserByEmail(email: String): User? {
+        return transaction {
+            UserTable.select { UserTable.email eq email }.firstOrNull()?.let {
+                User.fromResultRow(it)
+            }
         }
     }
 

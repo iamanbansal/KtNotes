@@ -1,6 +1,8 @@
 package com.ktnotes.feature.auth
 
 import com.ktnotes.exceptions.BadRequestException
+import com.ktnotes.feature.auth.request.AuthRequest
+import com.ktnotes.feature.auth.request.LoginRequest
 import com.ktnotes.model.ok
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
@@ -24,6 +26,15 @@ fun Application.authRouting(authController: AuthController) {
                 call.ok(authResponse)
             }
 
+            post("/login") {
+                val loginRequest = runCatching { call.receive<LoginRequest>() }.getOrElse {
+                    throw BadRequestException("Malformed JSON Body")
+                }
+
+                val authResponse = authController.login(loginRequest)
+
+                call.ok(authResponse)
+            }
         }
     }
 }
