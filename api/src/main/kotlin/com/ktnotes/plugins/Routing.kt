@@ -1,13 +1,9 @@
 package com.ktnotes.plugins
 
-import io.ktor.server.routing.*
-import io.ktor.server.response.*
-import io.ktor.server.application.*
+import com.ktnotes.feature.auth.AuthController
+import com.ktnotes.feature.auth.authRouting
+import io.ktor.server.application.Application
 
-fun Application.configureRouting() {
-    routing {
-        get("/") {
-            call.respondText("Hello World!")
-        }
-    }
+fun Application.configureRouting(authController: AuthController) {
+    authRouting(authController)
 }
