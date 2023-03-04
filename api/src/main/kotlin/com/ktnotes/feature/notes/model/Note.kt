@@ -11,9 +11,9 @@ data class Note(
     val id: String,
     val title: String,
     val note: String,
-    val created: String,
+    val created: Long,
     val isPinned: Boolean,
-    val updated: String
+    val updated: Long
 ) {
     companion object {
         fun fromResultRow(row: ResultRow): Note = with(NotesTable) {
@@ -22,9 +22,9 @@ data class Note(
                 row[id].value.toString(),
                 row[title],
                 row[note],
-                row[created].toEpochSecond(ZoneOffset.UTC).toString(),
+                row[created].toEpochSecond(ZoneOffset.UTC),
                 row[isPinned],
-                row[updated].toEpochSecond(ZoneOffset.UTC).toString()
+                row[updated].toEpochSecond(ZoneOffset.UTC)
 
             )
         }
