@@ -1,4 +1,4 @@
-package com.ktnotes.entity
+package com.ktnotes.db.entity
 
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.ResultRow

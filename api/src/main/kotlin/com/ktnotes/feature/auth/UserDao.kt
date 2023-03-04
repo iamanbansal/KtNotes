@@ -1,6 +1,6 @@
 package com.ktnotes.feature.auth
 
-import com.ktnotes.entity.UserTable
+import com.ktnotes.db.entity.UserTable
 import com.ktnotes.feature.auth.model.User
 import com.ktnotes.feature.auth.request.AuthRequest
 import com.ktnotes.security.hashing.SaltedHash

@@ -1,1 +1,1 @@
-rootProject.name = "com.ktnotes"
+rootProject.name = "KtNotesApi"

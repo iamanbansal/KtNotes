@@ -1,6 +1,6 @@
 package com.ktnotes.feature.auth.model
 
-import com.ktnotes.entity.UserTable
+import com.ktnotes.db.entity.UserTable
 import org.jetbrains.exposed.sql.ResultRow
 
 data class User(

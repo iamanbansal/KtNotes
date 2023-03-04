@@ -1,7 +1,7 @@
 package com.ktnotes.plugins
 
 import com.ktnotes.db.DBConfig
-import com.ktnotes.entity.UserTable
+import com.ktnotes.db.entity.UserTable
 import io.ktor.server.application.Application
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
