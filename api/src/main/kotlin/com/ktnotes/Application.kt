@@ -3,6 +3,8 @@ package com.ktnotes
 import com.ktnotes.db.DBConfig
 import com.ktnotes.feature.auth.AuthController
 import com.ktnotes.feature.auth.UserDaoImpl
+import com.ktnotes.feature.notes.NotesController
+import com.ktnotes.feature.notes.NotesDaoImp
 import com.ktnotes.plugins.configureDatabases
 import com.ktnotes.plugins.configureRouting
 import com.ktnotes.plugins.configureSecurity
@@ -23,11 +25,12 @@ fun Application.module() {
     val dbConfig = getDBConfig(this.environment.config)
     val hashingService = BCryptHashingService()
     val authController = AuthController(userDao, tokenService, hashingService)
+    val notesController = NotesController(NotesDaoImp())
 
     configureSerialization()
     configureDatabases(dbConfig)
     configureSecurity(tokenService)
-    configureRouting(authController)
+    configureRouting(authController, notesController)
 }
 
 
@@ -37,7 +40,6 @@ fun getTokenConfig(config: ApplicationConfig): TokenConfig {
     val domain = config.property("jwt.domain").getString()
     val realm = config.property("jwt.realm").getString()
     return TokenConfig(domain, jwtAudience, realm, secret)
-
 }
 
 fun getDBConfig(config: ApplicationConfig): DBConfig {
@@ -46,6 +48,5 @@ fun getDBConfig(config: ApplicationConfig): DBConfig {
     val name = config.property("database.name").getString()
     val user = config.property("database.user").getString()
     val password = config.property("database.password").getString()
-
     return DBConfig(host, port, name, user, password)
 }

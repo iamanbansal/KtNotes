@@ -1,6 +1,7 @@
 package com.ktnotes.plugins
 
 import com.ktnotes.db.DBConfig
+import com.ktnotes.db.entity.NotesTable
 import com.ktnotes.db.entity.UserTable
 import io.ktor.server.application.Application
 import org.jetbrains.exposed.sql.Database
@@ -17,6 +18,6 @@ fun Application.configureDatabases(dbConfig: DBConfig) {
     )
 
     transaction {
-        SchemaUtils.create(UserTable)
+        SchemaUtils.create(UserTable, NotesTable)
     }
 }
