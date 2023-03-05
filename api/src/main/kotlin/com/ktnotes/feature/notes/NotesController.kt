@@ -26,4 +26,12 @@ class NotesController(
         val note = notesDao.getNote(noteId, userId)?: throw NoteNotFoundException("Note $noteId not found")
         return NoteResponse(note)
     }
+
+    fun update(noteRequest: NoteRequest, userid: String, noteId: String) {
+        //valid data
+
+        //insert in db
+        notesDao.update(noteRequest, userid, noteId) ?: throw TransactionExceptions("Failed to insert note")
+
+    }
 }

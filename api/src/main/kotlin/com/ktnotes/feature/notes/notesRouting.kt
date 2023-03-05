@@ -4,6 +4,7 @@ import com.ktnotes.exceptions.BadRequestException
 import com.ktnotes.feature.notes.model.NoteResponse
 import com.ktnotes.feature.notes.model.NotesResponse
 import com.ktnotes.feature.notes.request.NoteRequest
+import com.ktnotes.model.MessageResponse
 import com.ktnotes.model.ok
 import com.ktnotes.security.getUserIdFromPrinciple
 import io.ktor.server.application.Application
@@ -13,6 +14,7 @@ import io.ktor.server.request.receive
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
+import io.ktor.server.routing.put
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 
@@ -53,6 +55,20 @@ fun Route.notesRouting(notesController: NotesController) {
             val noteId = call.parameters["id"] ?: return@get
             val response = notesController.getNote(noteId, userId)
             call.ok(response)
+        }
+
+        put("/{id}") {
+
+            val userId = call.getUserIdFromPrinciple()
+            val noteId = call.parameters["id"] ?: return@put
+
+            val noteRequest = runCatching { call.receive<NoteRequest>() }.getOrElse {
+                throw BadRequestException("JSON malformed")
+            }
+
+            notesController.update(noteRequest, userId, noteId)
+
+            call.ok(MessageResponse("Note updated successfully!"))
         }
     }
 

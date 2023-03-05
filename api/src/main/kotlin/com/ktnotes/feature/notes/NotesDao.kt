@@ -7,12 +7,14 @@ import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
 import java.util.*
 
 interface NotesDao {
     fun getNotes(userid: String): List<Note>
     fun insert(noteRequest: NoteRequest, userid: String): Note?
     fun getNote(noteId: String, userId: String): Note?
+    fun update(noteRequest: NoteRequest, userId: String, noteId: String)
 }
 
 class NotesDaoImp : NotesDao {
@@ -37,5 +39,16 @@ class NotesDaoImp : NotesDao {
         NotesTable.select {
             (NotesTable.user eq UUID.fromString(userId)) and (NotesTable.id eq UUID.fromString(noteId))
         }.firstOrNull()?.let { Note.fromResultRow(it) }
+    }
+
+    override fun update(noteRequest: NoteRequest, userId: String, noteId: String) {
+        transaction {
+            NotesTable.update({
+                (NotesTable.user eq UUID.fromString(userId)) and (NotesTable.id eq UUID.fromString(noteId))
+            }) {
+                it[title] = noteRequest.title.trim()
+                it[note] = noteRequest.note.trim()
+            }
+        }
     }
 }
