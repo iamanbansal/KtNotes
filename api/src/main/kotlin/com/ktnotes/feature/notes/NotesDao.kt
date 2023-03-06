@@ -3,7 +3,9 @@ package com.ktnotes.feature.notes
 import com.ktnotes.db.entity.NotesTable
 import com.ktnotes.feature.notes.model.Note
 import com.ktnotes.feature.notes.request.NoteRequest
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -15,6 +17,7 @@ interface NotesDao {
     fun insert(noteRequest: NoteRequest, userid: String): Note?
     fun getNote(noteId: String, userId: String): Note?
     fun update(noteRequest: NoteRequest, userId: String, noteId: String)
+    fun delete(userId: String, noteId: String)
 }
 
 class NotesDaoImp : NotesDao {
@@ -48,6 +51,14 @@ class NotesDaoImp : NotesDao {
             }) {
                 it[title] = noteRequest.title.trim()
                 it[note] = noteRequest.note.trim()
+            }
+        }
+    }
+
+    override fun delete(userId: String, noteId: String) {
+        transaction {
+            NotesTable.deleteWhere{
+                (NotesTable.user eq UUID.fromString(userId)) and (NotesTable.id eq UUID.fromString(noteId))
             }
         }
     }

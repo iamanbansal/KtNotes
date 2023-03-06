@@ -30,8 +30,12 @@ class NotesController(
     fun update(noteRequest: NoteRequest, userid: String, noteId: String) {
         //valid data
 
-        //insert in db
-        notesDao.update(noteRequest, userid, noteId) ?: throw TransactionExceptions("Failed to insert note")
+        //update in db
+        notesDao.update(noteRequest, userid, noteId)
 
+    }
+
+    fun delete(userId: String, noteId: String) {
+        notesDao.delete(userId, noteId)
     }
 }

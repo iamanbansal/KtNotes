@@ -12,6 +12,7 @@ import io.ktor.server.application.call
 import io.ktor.server.auth.authenticate
 import io.ktor.server.request.receive
 import io.ktor.server.routing.Route
+import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.put
@@ -69,6 +70,16 @@ fun Route.notesRouting(notesController: NotesController) {
             notesController.update(noteRequest, userId, noteId)
 
             call.ok(MessageResponse("Note updated successfully!"))
+        }
+
+        delete("/{id}") {
+
+            val userId = call.getUserIdFromPrinciple()
+            val noteId = call.parameters["id"] ?: return@delete
+
+            notesController.delete(userId, noteId)
+
+            call.ok(MessageResponse("Note deleted successfully!"))
         }
     }
 
