@@ -6,6 +6,7 @@ import com.ktnotes.feature.auth.UserDaoImpl
 import com.ktnotes.feature.notes.NotesController
 import com.ktnotes.feature.notes.NotesDaoImp
 import com.ktnotes.plugins.configureDatabases
+import com.ktnotes.plugins.configureStatusPages
 import com.ktnotes.plugins.configureRouting
 import com.ktnotes.plugins.configureSecurity
 import com.ktnotes.plugins.configureSerialization
@@ -31,6 +32,7 @@ fun Application.module() {
     configureDatabases(dbConfig)
     configureSecurity(tokenService)
     configureRouting(authController, notesController)
+    configureStatusPages()
 }
 
 
