@@ -5,6 +5,7 @@ import com.ktnotes.feature.auth.AuthController
 import com.ktnotes.feature.auth.UserDaoImpl
 import com.ktnotes.feature.notes.NotesController
 import com.ktnotes.feature.notes.NotesDaoImp
+import com.ktnotes.plugins.configureCORS
 import com.ktnotes.plugins.configureDatabases
 import com.ktnotes.plugins.configureStatusPages
 import com.ktnotes.plugins.configureRouting
@@ -26,13 +27,14 @@ fun Application.module() {
     val dbConfig = getDBConfig(this.environment.config)
     val hashingService = BCryptHashingService()
     val authController = AuthController(userDao, tokenService, hashingService)
-    val notesController = NotesController(NotesDaoImp())
+    val notesController by lazy { NotesController(NotesDaoImp()) }
 
     configureSerialization()
     configureDatabases(dbConfig)
     configureSecurity(tokenService)
     configureRouting(authController, notesController)
     configureStatusPages()
+    configureCORS()
 }
 
 
