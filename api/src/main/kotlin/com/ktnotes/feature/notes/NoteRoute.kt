@@ -1,5 +1,6 @@
 package com.ktnotes.feature.notes
 
+import com.ktnotes.di.components.ApplicationComponent
 import com.ktnotes.exceptions.BadRequestException
 import com.ktnotes.feature.notes.model.NoteResponse
 import com.ktnotes.feature.notes.model.NotesResponse
@@ -20,15 +21,17 @@ import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 
 
-fun Application.authenticatedNotesRouting(notesController: NotesController) {
+fun Application.authenticatedNotesRouting(appComponent: ApplicationComponent) {
     routing {
         authenticate {
-            notesRouting(notesController)
+            notesRouting(appComponent)
         }
     }
 }
 
-fun Route.notesRouting(notesController: NotesController) {
+fun Route.notesRouting(appComponent: ApplicationComponent) {
+
+    val notesController by appComponent.getNoteComponent().getNotesController()
 
     get("/notes") {
 

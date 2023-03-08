@@ -57,7 +57,7 @@ class NotesDaoImp : NotesDao {
 
     override fun delete(userId: String, noteId: String) {
         transaction {
-            NotesTable.deleteWhere{
+            NotesTable.deleteWhere {
                 (NotesTable.user eq UUID.fromString(userId)) and (NotesTable.id eq UUID.fromString(noteId))
             }
         }

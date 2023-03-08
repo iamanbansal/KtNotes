@@ -1,6 +1,6 @@
 package com.ktnotes.security.token
 
 data class TokenClaim(
-    val name:String,
-    val value:String
+    val name: String,
+    val value: String
 )

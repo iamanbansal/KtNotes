@@ -1,16 +1,15 @@
 package com.ktnotes.plugins
 
-import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
-import com.ktnotes.security.token.TokenConfig
-import com.ktnotes.security.token.JWTServiceImp
-import io.ktor.server.application.*
-import io.ktor.server.config.ApplicationConfig
+import com.ktnotes.di.components.ApplicationComponent
+import io.ktor.server.application.Application
+import io.ktor.server.auth.authentication
+import io.ktor.server.auth.jwt.jwt
 
-fun Application.configureSecurity(tokenService: JWTServiceImp) {
+fun Application.configureSecurity(appComponent: ApplicationComponent) {
+    val tokenService = appComponent.getAuthComponent().getTokenService()
+
     authentication {
         jwt {
-
             verifier(
                 tokenService.getVerifier()
             )

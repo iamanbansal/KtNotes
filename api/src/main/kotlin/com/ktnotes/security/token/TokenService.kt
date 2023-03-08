@@ -22,7 +22,7 @@ class JWTServiceImp(private val config: TokenConfig, private val userDao: UserDa
         val builder = JWT.create()
             .withIssuer(config.domain)
             .withAudience(config.audience)
-            .withExpiresAt(Date(System.currentTimeMillis() + 7*24*60*60*1000))
+            .withExpiresAt(Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000))
 
         claims.forEach {
             builder.withClaim(it.name, it.value)

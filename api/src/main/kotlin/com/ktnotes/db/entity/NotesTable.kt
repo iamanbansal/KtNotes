@@ -1,9 +1,7 @@
 package com.ktnotes.db.entity
 
 import org.jetbrains.exposed.dao.id.UUIDTable
-import org.jetbrains.exposed.sql.javatime.date
 import org.jetbrains.exposed.sql.javatime.datetime
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 

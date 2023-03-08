@@ -23,7 +23,7 @@ class NotesController(
     }
 
     fun getNote(noteId: String, userId: String): Response {
-        val note = notesDao.getNote(noteId, userId)?: throw NoteNotFoundException("Note $noteId not found")
+        val note = notesDao.getNote(noteId, userId) ?: throw NoteNotFoundException("Note $noteId not found")
         return NoteResponse(note)
     }
 

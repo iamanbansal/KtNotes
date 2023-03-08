@@ -1,5 +1,6 @@
 package com.ktnotes.feature.auth
 
+import com.ktnotes.di.components.ApplicationComponent
 import com.ktnotes.exceptions.BadRequestException
 import com.ktnotes.feature.auth.request.AuthRequest
 import com.ktnotes.feature.auth.request.LoginRequest
@@ -12,7 +13,9 @@ import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 
 
-fun Application.authRouting(authController: AuthController) {
+fun Application.authRouting(appComponent: ApplicationComponent) {
+    val authController by appComponent.getAuthComponent().getAuthController()
+
     routing {
         route("/auth") {
 
