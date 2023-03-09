@@ -11,6 +11,7 @@ import com.ktnotes.security.hashing.SaltedHash
 import com.ktnotes.security.token.JWTServiceImp
 import com.ktnotes.security.token.TokenClaim
 import com.ktnotes.security.token.TokenService
+import com.ktnotes.util.isValidEmail
 
 class AuthController(
     private val userDao: UserDao,
@@ -19,6 +20,8 @@ class AuthController(
 ) {
 
     fun register(authRequest: AuthRequest): AuthResponse {
+
+        validateRequest(authRequest)
 
         if (userDao.isEmailExist(authRequest.email)) {
             throw BadRequestException("User already exist")
@@ -48,6 +51,21 @@ class AuthController(
         val token = tokenService.generateToken(TokenClaim(JWTServiceImp.CLAIM, user.id))
 
         return AuthResponse(token)
+    }
+
+
+    private fun validateRequest(authRequest: AuthRequest) {
+        val message = when {
+            authRequest.email.isValidEmail() -> "Invalid Email address"
+            authRequest.name.isBlank() -> "Name can not be blank"
+            authRequest.name.length > 50 -> "Name can not be more than 50 characters"
+            authRequest.password.length < 8 -> "Password length should be more than 8 characters"
+            else -> ""
+        }
+
+        if (message.isNotBlank()) {
+            throw BadRequestException(message)
+        }
     }
 
 }

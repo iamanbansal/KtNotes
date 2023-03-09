@@ -12,9 +12,6 @@ class NotesController(
     private val notesDao: NotesDao,
 ) {
     fun insert(noteRequest: NoteRequest, userid: String): Note {
-        //valid data
-
-        //insert in db
         return notesDao.insert(noteRequest, userid) ?: throw TransactionExceptions("Failed to insert note")
 
     }
@@ -29,11 +26,7 @@ class NotesController(
     }
 
     fun update(noteRequest: NoteRequest, userid: String, noteId: String) {
-        //valid data
-
-        //update in db
         notesDao.update(noteRequest, userid, noteId)
-
     }
 
     fun delete(userId: String, noteId: String) {
