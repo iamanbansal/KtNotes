@@ -4,6 +4,7 @@ import com.ktnotes.exceptions.NoteNotFoundException
 import com.ktnotes.exceptions.TransactionExceptions
 import com.ktnotes.feature.notes.model.Note
 import com.ktnotes.feature.notes.model.NoteResponse
+import com.ktnotes.feature.notes.model.NotesResponse
 import com.ktnotes.feature.notes.request.NoteRequest
 import com.ktnotes.model.Response
 
@@ -37,5 +38,10 @@ class NotesController(
 
     fun delete(userId: String, noteId: String) {
         notesDao.delete(userId, noteId)
+    }
+
+    fun getNotesByQuery(userId: String, query: String): Response {
+        val list = notesDao.search(userId, query)
+        return NotesResponse(list)
     }
 }

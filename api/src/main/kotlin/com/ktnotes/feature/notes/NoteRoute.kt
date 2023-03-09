@@ -41,6 +41,16 @@ fun Route.notesRouting(appComponent: ApplicationComponent) {
         call.ok(NotesResponse(note))
     }
 
+    get("/search") {
+
+        val userId = call.getUserIdFromPrinciple()
+        val query = call.parameters["q"] ?: return@get
+
+        val notes = notesController.getNotesByQuery(userId, query)
+
+        call.ok(notes)
+    }
+
     route("/note") {
         post("/new") {
 
