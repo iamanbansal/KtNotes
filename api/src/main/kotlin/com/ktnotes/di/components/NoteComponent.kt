@@ -15,7 +15,6 @@ class NoteComponentImpl(private val applicationComponent: ApplicationComponent) 
         NotesController(notesDao)
     }
 
-
     override fun getNotesController(): Lazy<NotesController> {
         return notesController
     }

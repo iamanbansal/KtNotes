@@ -5,5 +5,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class NoteRequest(
     val title: String,
-    val note: String
+    val note: String,
+    val isPinned:Boolean = false
 )
