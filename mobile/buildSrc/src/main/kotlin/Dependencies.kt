@@ -71,4 +71,8 @@ object Dependencies {
     object Settings {
         const val lib = "com.russhwolf:multiplatform-settings:1.0.0"
     }
+
+    object Androidx{
+        const val securityCrypto="androidx.security:security-crypto:1.0.0"
+    }
 }

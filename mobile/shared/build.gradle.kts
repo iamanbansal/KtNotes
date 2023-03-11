@@ -12,7 +12,7 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -47,6 +47,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(Dependencies.Ktor.androidClient)
+                implementation(Dependencies.Androidx.securityCrypto)
             }
         }
         val androidUnitTest by getting
