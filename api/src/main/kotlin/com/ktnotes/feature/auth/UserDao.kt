@@ -19,7 +19,7 @@ interface UserDao {
 class UserDaoImpl : UserDao {
     override fun insertUser(authRequest: AuthRequest, saltedHash: SaltedHash): User? = transaction {
         return@transaction UserTable.insert {
-            it[name] = authRequest.name
+            it[name] = authRequest.name!!
             it[email] = authRequest.email
             it[password] = saltedHash.hash
             it[salt] = saltedHash.salt

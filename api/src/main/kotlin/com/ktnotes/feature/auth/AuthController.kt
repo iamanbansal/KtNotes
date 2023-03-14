@@ -5,7 +5,7 @@ import com.ktnotes.exceptions.TransactionExceptions
 import com.ktnotes.exceptions.UnauthorizedActivityException
 import com.ktnotes.feature.auth.model.AuthResponse
 import com.ktnotes.feature.auth.request.AuthRequest
-import com.ktnotes.feature.auth.request.LoginRequest
+import com.ktnotes.model.Response
 import com.ktnotes.security.hashing.HashingService
 import com.ktnotes.security.hashing.SaltedHash
 import com.ktnotes.security.token.JWTServiceImp
@@ -19,7 +19,7 @@ class AuthController(
     private val hashingService: HashingService
 ) {
 
-    fun register(authRequest: AuthRequest): AuthResponse {
+    fun register(authRequest: AuthRequest): Response {
 
         validateRequest(authRequest)
 
@@ -32,12 +32,14 @@ class AuthController(
         val user = userDao.insertUser(authRequest, saltedHash)
             ?: throw TransactionExceptions("Problem inserting new user")
 
-        val token = tokenService.generateToken(TokenClaim(JWTServiceImp.CLAIM, user.id))
+        val tokenPair = tokenService.generateToken(TokenClaim(JWTServiceImp.CLAIM, user.id))
 
-        return AuthResponse(token)
+        tokenService.insertToken(user.id, tokenPair)
+
+        return AuthResponse(tokenPair.accessToken, tokenPair.refreshToken)
     }
 
-    fun login(loginRequest: LoginRequest): AuthResponse {
+    fun login(loginRequest: AuthRequest): Response {
 
         val user = userDao.getUserByEmail(loginRequest.email)
             ?: throw UnauthorizedActivityException("Invalid Credentials")
@@ -48,16 +50,22 @@ class AuthController(
             throw UnauthorizedActivityException("Invalid Credentials")
         }
 
-        val token = tokenService.generateToken(TokenClaim(JWTServiceImp.CLAIM, user.id))
+        val tokenPair = tokenService.generateToken(TokenClaim(JWTServiceImp.CLAIM, user.id))
+        tokenService.updateToken(user.id, tokenPair)
+        return AuthResponse(tokenPair.accessToken, tokenPair.refreshToken)
+    }
 
-        return AuthResponse(token)
+    fun refreshToken(refreshToken: String): Response {
+        val pair = tokenService.validateRefreshToken(refreshToken)
+        return AuthResponse(pair.accessToken, pair.refreshToken)
+
     }
 
 
     private fun validateRequest(authRequest: AuthRequest) {
         val message = when {
             authRequest.email.isValidEmail() -> "Invalid Email address"
-            authRequest.name.isBlank() -> "Name can not be blank"
+            authRequest.name.isNullOrBlank() -> "Name can not be blank"
             authRequest.name.length > 50 -> "Name can not be more than 50 characters"
             authRequest.password.length < 8 -> "Password length should be more than 8 characters"
             else -> ""
