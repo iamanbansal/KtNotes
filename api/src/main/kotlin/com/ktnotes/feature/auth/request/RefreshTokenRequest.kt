@@ -3,7 +3,4 @@ package com.ktnotes.feature.auth.request
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class LoginRequest(
-    val email: String,
-    val password: String
-)
+class RefreshTokenRequest(val refreshToken:String)
