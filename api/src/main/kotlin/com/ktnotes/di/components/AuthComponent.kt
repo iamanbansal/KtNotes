@@ -13,10 +13,11 @@ interface AuthComponent {
 class AuthComponentImpl(private val applicationComponent: ApplicationComponent) : AuthComponent {
 
     private val userDao by lazy { AuthModule.provideUserDao() }
+    private val tokenDao by lazy { AuthModule.provideTokenDao() }
     private val hashingService by lazy { AuthModule.provideHashingService() }
     private val applicationConfig = ConfigModule.getApplicationConfig(applicationComponent.application)
     private val tokenConfig by lazy { ConfigModule.provideTokenConfig(applicationConfig) }
-    private val tokenService = AuthModule.provideTokenService(tokenConfig, userDao)
+    private val tokenService = AuthModule.provideTokenService(tokenConfig, userDao, tokenDao)
     private val authController = lazy {
         AuthModule.provideAuthController(userDao, tokenService, hashingService)
     }
