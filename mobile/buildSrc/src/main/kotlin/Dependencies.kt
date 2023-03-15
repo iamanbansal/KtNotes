@@ -67,4 +67,8 @@ object Dependencies {
         const val test = "io.insert-koin:koin-test:${koinVersion}"
         const val testJUnit4 = "io.insert-koin:koin-test-junit4:${koinVersion}"
     }
+
+    object Settings {
+        const val lib = "com.russhwolf:multiplatform-settings:1.0.0"
+    }
 }

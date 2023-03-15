@@ -35,6 +35,8 @@ kotlin {
                     implementation(serialization)
                     implementation(auth)
                 }
+
+                implementation(Dependencies.Settings.lib)
             }
         }
         val commonTest by getting {
