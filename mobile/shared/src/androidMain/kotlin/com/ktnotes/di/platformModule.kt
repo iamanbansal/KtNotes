@@ -18,7 +18,7 @@ fun getSharedPreference(appContext: Context): SharedPreferencesSettings {
     val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
 
     val delegate = EncryptedSharedPreferences.create(
-        "KtNotesPreferences",
+        PREFERENCE_NAME,
         masterKeyAlias,
         appContext,
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,

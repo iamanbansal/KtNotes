@@ -1,9 +1,5 @@
 package com.ktnotes.di
 
-import com.ktnotes.feature.auth.remote.AuthApi
-import com.ktnotes.feature.auth.remote.AuthApiImpl
-import com.ktnotes.feature.auth.remote.AuthRepository
-import com.ktnotes.feature.auth.remote.AuthRepositoryImpl
 import com.ktnotes.session.SessionManager
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine

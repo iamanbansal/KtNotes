@@ -10,12 +10,8 @@ class KtNotesApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        initKoin(BuildConfig.DEBUG) {
-            modules(
-                module {
-                    single<Context> { this@KtNotesApplication }
-                }
-            )
-        }
+        initKoin(BuildConfig.DEBUG, appModule = module {
+            single<Context> { this@KtNotesApplication }
+        })
     }
 }
