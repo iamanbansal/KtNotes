@@ -1,7 +1,7 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("kotlinx-serialization")
+    kotlin(Dependencies.Plugins.serialization)
 }
 
 kotlin {
@@ -41,6 +41,7 @@ kotlin {
             dependencies {
                 implementation(Dependencies.Ktor.androidClient)
                 implementation(Dependencies.Androidx.securityCrypto)
+                implementation(Dependencies.Androidx.viewmodel)
             }
         }
         val androidUnitTest by getting
