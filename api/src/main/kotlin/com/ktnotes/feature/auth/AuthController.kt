@@ -42,12 +42,12 @@ class AuthController(
     fun login(loginRequest: AuthRequest): Response {
 
         val user = userDao.getUserByEmail(loginRequest.email)
-            ?: throw UnauthorizedActivityException("Invalid Credentials")
+            ?: throw BadRequestException("Invalid Credentials")
 
         val isPasswordValid = hashingService.verify(loginRequest.password, SaltedHash(user.salt, user.password))
 
         if (!isPasswordValid) {
-            throw UnauthorizedActivityException("Invalid Credentials")
+            throw BadRequestException("Invalid Credentials")
         }
 
         val tokenPair = tokenService.generateToken(TokenClaim(JWTServiceImp.CLAIM, user.id))
