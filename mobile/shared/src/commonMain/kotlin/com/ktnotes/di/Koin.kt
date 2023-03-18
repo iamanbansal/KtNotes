@@ -9,6 +9,7 @@ fun initKoin(enableNetworkLogs: Boolean = false, appModule: Module) =
             appModule,
             sharedAppModule(),
             networkModule(enableNetworkLogs = enableNetworkLogs),
-            platformModule()
+            platformModule(),
+            authModule()
         )
     }
