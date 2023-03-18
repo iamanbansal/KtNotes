@@ -13,7 +13,6 @@ import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
@@ -77,17 +76,17 @@ fun createHttpClient(
                     val retryClient =
                         createRetryHttpClient(httpClientEngine, json, enableNetworkLogs)
 
-                   try {
-                       val response = retryClient.postWithJsonContent("auth/refresh") {
-                           setBody(RefreshTokenRequest(refreshToken))
-                       }.body<AuthResponse>()
-                       sessionManager.saveTokens(TokenPair(response.token, response.refreshToken))
+                    try {
+                        val response = retryClient.postWithJsonContent("auth/refresh") {
+                            setBody(RefreshTokenRequest(refreshToken))
+                        }.body<AuthResponse>()
+                        sessionManager.saveTokens(TokenPair(response.token, response.refreshToken))
 
-                       bearerTokenStorage.add(BearerTokens(response.token, response.refreshToken))
+                        bearerTokenStorage.add(BearerTokens(response.token, response.refreshToken))
 
-                   }catch (e:Exception){
-                       println(e)
-                   }
+                    } catch (e: Exception) {
+                        println(e)
+                    }
                     bearerTokenStorage.last()
                 }
             }

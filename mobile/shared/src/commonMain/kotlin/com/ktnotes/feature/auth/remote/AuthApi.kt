@@ -15,7 +15,6 @@ import io.ktor.http.contentType
 interface AuthApi {
     suspend fun login(authRequest: AuthRequest): AuthResponse
     suspend fun register(authRequest: AuthRequest): AuthResponse
-    suspend fun refreshToken(refreshTokenRequest: RefreshTokenRequest):AuthResponse
 }
 
 
@@ -31,12 +30,6 @@ class AuthApiImpl(private val httpClient: HttpClient) : AuthApi {
     override suspend fun register(authRequest: AuthRequest): AuthResponse {
         return httpClient.postWithJsonContent("auth/register") {
             setBody(authRequest)
-        }.body()
-    }
-
-    override suspend fun refreshToken(refreshTokenRequest: RefreshTokenRequest): AuthResponse {
-        return httpClient.postWithJsonContent("auth/refresh"){
-            setBody(refreshTokenRequest)
         }.body()
     }
 }

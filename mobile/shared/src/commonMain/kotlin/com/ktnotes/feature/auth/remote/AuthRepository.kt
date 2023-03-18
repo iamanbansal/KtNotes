@@ -10,8 +10,6 @@ import com.ktnotes.session.TokenPair
 interface AuthRepository {
     suspend fun login(authRequest: AuthRequest)
     suspend fun register(authRequest: AuthRequest)
-    suspend fun refreshToken(refreshTokenRequest: RefreshTokenRequest):AuthResponse
-    fun getTokenPair(): TokenPair
 
 }
 
@@ -25,15 +23,6 @@ class AuthRepositoryImpl(private val api: AuthApi, private val sessionManager: S
         val response = api.register(authRequest)
     }
 
-    override suspend fun refreshToken(refreshTokenRequest: RefreshTokenRequest): AuthResponse {
-        val response = api.refreshToken(refreshTokenRequest)
-        saveToken(response)
-        return response
-    }
-
-    override fun getTokenPair(): TokenPair {
-        return sessionManager.getTokenPair()
-    }
     private fun saveToken(authResponse: AuthResponse) {
         sessionManager.saveTokens(TokenPair(authResponse.token, authResponse.refreshToken))
     }
