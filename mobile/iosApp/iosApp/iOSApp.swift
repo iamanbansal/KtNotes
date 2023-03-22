@@ -1,23 +1,24 @@
 import UIKit
 import shared
+import SwiftUI
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
+
+    var window: UIWindow?
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         KoinIOSKt.doInitKoin()
-        
+
+        let viewController = UIHostingController(rootView: ContentView())
+
+                self.window = UIWindow(frame: UIScreen.main.bounds)
+                self.window?.rootViewController = viewController
+                self.window?.makeKeyAndVisible()
+
         return true
     }
     
     
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-    }
-    
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        
-    }
 }
