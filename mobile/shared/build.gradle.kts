@@ -1,7 +1,8 @@
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
+    id(Dependencies.Plugins.androidLibrary)
     kotlin(Dependencies.Plugins.serialization)
+    id(Dependencies.Plugins.sqlDelight)
 }
 
 kotlin {
@@ -42,6 +43,7 @@ kotlin {
                 implementation(Dependencies.Ktor.androidClient)
                 implementation(Dependencies.Androidx.securityCrypto)
                 implementation(Dependencies.Androidx.viewmodel)
+                implementation(Dependencies.SQLDelight.androidDriver)
             }
         }
         val androidUnitTest by getting
@@ -56,6 +58,8 @@ kotlin {
 
             dependencies {
                 implementation(Dependencies.Ktor.iosClient)
+                implementation(Dependencies.SQLDelight.nativeDriver)
+
             }
         }
         val iosX64Test by getting
@@ -76,5 +80,11 @@ android {
     defaultConfig {
         minSdk = 23
         targetSdk = 33
+    }
+}
+
+sqldelight {
+    database("KtNotesDatabase") {
+        packageName = "com.ktnotes.database"
     }
 }

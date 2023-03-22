@@ -10,7 +10,7 @@ object Dependencies {
 
     object Plugins {
         const val serialization = "plugin.serialization"
-        const val sqlDelight = "com.squareup.sqldelight"
+        const val sqlDelight = "com.squareup.sqldelight" //this will change with newer version
         const val hilt = "com.google.dagger.hilt.android"
         const val kapt = "kapt"
         const val androidLibrary = "com.android.library"
@@ -32,6 +32,7 @@ object Dependencies {
         const val contentNegotiation = "io.ktor:ktor-client-content-negotiation:$ktorVersion"
         const val serialization = "io.ktor:ktor-serialization-kotlinx-json:$ktorVersion"
         const val auth = "io.ktor:ktor-client-auth:$ktorVersion"
+        const val qosLogback = "ch.qos.logback:logback-classic:1.4.5"
     }
 
     object Coroutines {

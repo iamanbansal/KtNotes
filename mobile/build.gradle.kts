@@ -5,6 +5,7 @@ plugins {
     kotlin("android").version(Dependencies.kotlinVersion).apply(false)
     kotlin("multiplatform").version(Dependencies.kotlinVersion).apply(false)
     kotlin(Dependencies.Plugins.serialization).version(Dependencies.kotlinVersion).apply(false)
+    id(Dependencies.Plugins.sqlDelight).version(Dependencies.SQLDelight.sqlDelightVersion).apply(false)
 }
 
 tasks.register("clean", Delete::class) {

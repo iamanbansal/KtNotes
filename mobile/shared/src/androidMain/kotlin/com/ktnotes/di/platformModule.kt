@@ -11,8 +11,11 @@ package com.ktnotes.di
 import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import com.ktnotes.database.KtNotesDatabase
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.SharedPreferencesSettings
+import com.squareup.sqldelight.android.AndroidSqliteDriver
+import com.squareup.sqldelight.db.SqlDriver
 import io.ktor.client.engine.android.Android
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -20,10 +23,11 @@ import org.koin.dsl.module
 
 actual fun platformModule(): Module = module {
     single { Android.create() }
-    single<Settings> { getSharedPreference(get()) }
+    single { getSharedPreference(get()) }
+    single { createAndroidSqliteDriver(get()) }
 }
 
-private fun getSharedPreference(appContext: Context): SharedPreferencesSettings {
+private fun getSharedPreference(appContext: Context): Settings {
     val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
 
     val delegate = EncryptedSharedPreferences.create(
@@ -34,4 +38,8 @@ private fun getSharedPreference(appContext: Context): SharedPreferencesSettings 
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
     return SharedPreferencesSettings(delegate)
+}
+
+private fun createAndroidSqliteDriver(context: Context): SqlDriver {
+    return AndroidSqliteDriver(KtNotesDatabase.Schema, context, DB_NAME)
 }
