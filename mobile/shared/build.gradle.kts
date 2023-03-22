@@ -31,6 +31,7 @@ kotlin {
                 }
 
                 implementation(Dependencies.Settings.lib)
+                implementation(Dependencies.SQLDelight.coroutineExtension)
             }
         }
         val commonTest by getting {

@@ -1,0 +1,27 @@
+CREATE TABLE IF NOT EXISTS NoteEntity(
+ id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  note TEXT NOT NULL,
+  createdAt INTEGER NOT NULL,
+  updatedAt INTEGER NOT NULL,
+  isPinned INTEGER AS Boolean NOT NULL
+);
+
+getAllNotes:
+SELECT * FROM NoteEntity ORDER BY isPinned DESC, updatedAt DESC;
+
+getNoteById:
+SELECT * FROM NoteEntity WHERE id = ?;
+
+inserNote:
+INSERT OR REPLACE INTO NoteEntity(
+id,
+title,
+note,
+createdAt,
+updatedAt,
+isPinned
+) VALUES (?,?,?,?,?,?);
+
+deleteNoteById:
+DELETE FROM NoteEntity WHERE id = ?;
