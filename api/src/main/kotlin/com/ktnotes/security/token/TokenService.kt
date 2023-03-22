@@ -65,9 +65,7 @@ class JWTServiceImp(
 
     override fun validateRefreshToken(token: String): TokenPair {
         val refreshTokenData = tokenDao.getRefreshTokenFromDb(token)
-
-        val currentTime = LocalDateTime.now()
-        if (refreshTokenData != null && refreshTokenData.expiresAt.isBefore(currentTime)) {
+        if (refreshTokenData != null) {
             val pair = generateToken(TokenClaim(CLAIM, refreshTokenData.userId))
             updateToken(refreshTokenData.userId, pair)
             return pair
