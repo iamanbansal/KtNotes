@@ -14,6 +14,7 @@ class SessionManagerImpl(private val settings: Settings) : SessionManager {
 
     override fun saveTokens(tokenPair: TokenPair) {
         settings.putString(AUTH_TOKEN_KEY, tokenPair.accessToken)
+        settings.putString(REFRESH_TOKEN_KEY, tokenPair.refreshToken)
     }
 
     override fun getToken(): String = settings.getString(AUTH_TOKEN_KEY, "")
