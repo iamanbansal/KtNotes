@@ -13,7 +13,7 @@ SELECT * FROM NoteEntity ORDER BY isPinned DESC, updatedAt DESC;
 getNoteById:
 SELECT * FROM NoteEntity WHERE id = ?;
 
-inserNote:
+inserOrReplaceNote:
 INSERT OR REPLACE INTO NoteEntity(
 id,
 title,
@@ -25,3 +25,6 @@ isPinned
 
 deleteNoteById:
 DELETE FROM NoteEntity WHERE id = ?;
+
+clearAllNotes:
+DELETE FROM NoteEntity;
