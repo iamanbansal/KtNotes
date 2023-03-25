@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin(Dependencies.Plugins.kapt)
+    id(Dependencies.Plugins.hilt).version(Dependencies.Dagger.hiltVersion)
 }
 
 android {
@@ -47,4 +49,6 @@ dependencies {
     implementation("androidx.compose.material:material:1.3.1")
     implementation("androidx.activity:activity-compose:1.6.1")
     implementation(Dependencies.Koin.core)
+    implementation(Dependencies.Dagger.hiltAndroid)
+    kapt(Dependencies.Dagger.hiltCompiler)
 }

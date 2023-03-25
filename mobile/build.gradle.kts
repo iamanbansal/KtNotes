@@ -6,6 +6,8 @@ plugins {
     kotlin("multiplatform").version(Dependencies.kotlinVersion).apply(false)
     kotlin(Dependencies.Plugins.serialization).version(Dependencies.kotlinVersion).apply(false)
     id(Dependencies.Plugins.sqlDelight).version(Dependencies.SQLDelight.sqlDelightVersion).apply(false)
+    id(Dependencies.Plugins.hilt).version(Dependencies.Dagger.hiltVersion).apply(false)
+
 }
 
 tasks.register("clean", Delete::class) {
