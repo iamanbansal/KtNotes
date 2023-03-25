@@ -72,7 +72,7 @@ fun createHttpClient(
                     //after immediate login or signup api, this will load blank tokens
                     //so if check if blank or null token are there load tokens from settings
                     //if the loaded token is blank or null, mean user is trying to access without login
-                    //so refresh api will throw Unauthorized Exception
+                    //so refresh api will throw BadRequest Exception
 
                     val refreshToken = if (oldTokens?.refreshToken.isNullOrBlank().not())
                         oldTokens!!.refreshToken
