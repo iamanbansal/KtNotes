@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ktnotes.android.feature.auth.RegistrationScreen
 import com.ktnotes.android.feature.note.NoteListScreen
+import com.ktnotes.feature.note.details.NEW_NOTE_ID
 import com.ktnotes.android.feature.note.details.NoteDetailScreen
 
 const val NAV_HOST_ROUTE = "main-route"
@@ -43,11 +44,11 @@ fun KtNotesNavigation() {
             arguments = listOf(
                 navArgument(name = Screen.NoteDetails.ARG_NOTE_ID) {
                     type = NavType.StringType
-                    defaultValue = "new"
+                    defaultValue = NEW_NOTE_ID
                 }
 
             )) {
-            val noteId = it.arguments?.getString(Screen.NoteDetails.ARG_NOTE_ID) ?: "new"
+            val noteId = it.arguments?.getString(Screen.NoteDetails.ARG_NOTE_ID) ?: NEW_NOTE_ID
 
             NoteDetailScreen(
                 noteId = noteId,
@@ -69,12 +70,13 @@ private fun NavHostController.navigateToNotesScreenPopAll() {
         popUpTo(Screen.Register.route) {
             inclusive = true
         }
+        launchSingleTop = true
     }
 }
 
 private fun NavHostController.navigateToRegisterScreenPopAll() {
     navigate(Screen.Register.route) {
-        popUpTo(Screen.Register.route) {
+        popUpTo(Screen.Notes.route) {
             inclusive = true
         }
     }

@@ -1,6 +1,5 @@
 package com.ktnotes.android.feature.auth
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,7 +23,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ktnotes.android.AuthViewModel
 
 @Composable
 fun RegistrationScreen(
@@ -33,11 +31,7 @@ fun RegistrationScreen(
 ) {
     val fields by viewModel.fieldsState.collectAsState()
     var isLoginMode by remember { mutableStateOf(true) }
-
-
     val loginUiState by viewModel.state.collectAsState()
-
-    Log.d("**main", "RegistrationScreen() called with: viewModel = $loginUiState")
 
     Column(
         modifier = Modifier
@@ -110,7 +104,6 @@ fun RegistrationScreen(
             )
         }
     }
-
 
     if (loginUiState.isLoggedIn) {
         onLoggedIn()
