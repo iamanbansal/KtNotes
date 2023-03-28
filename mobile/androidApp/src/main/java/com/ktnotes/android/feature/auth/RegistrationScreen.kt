@@ -17,7 +17,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,9 +31,7 @@ fun RegistrationScreen(
     viewModel: AuthViewModel = hiltViewModel(),
     onLoggedIn: () -> Unit
 ) {
-    val name by rememberSaveable { viewModel.name }
-    val email by rememberSaveable { viewModel.email }
-    val password by rememberSaveable { viewModel.password }
+    val fields by viewModel.fieldsState.collectAsState()
     var isLoginMode by remember { mutableStateOf(true) }
 
 
@@ -51,10 +48,8 @@ fun RegistrationScreen(
     ) {
         if (!isLoginMode) {
             OutlinedTextField(
-                value = name,
-                onValueChange = {
-                    viewModel.name.value = it
-                },
+                value = fields.name,
+                onValueChange = viewModel::onNameChanged,
                 label = { Text("Name") },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -63,11 +58,9 @@ fun RegistrationScreen(
         }
 
         OutlinedTextField(
-            value = email,
+            value = fields.email,
             singleLine = true,
-            onValueChange = {
-                viewModel.email.value = it
-            },
+            onValueChange = viewModel::onEmailChanged,
             label = { Text("Email") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -75,11 +68,9 @@ fun RegistrationScreen(
         )
 
         OutlinedTextField(
-            value = password,
+            value = fields.pass,
             singleLine = true,
-            onValueChange = {
-                viewModel.password.value = it
-            },
+            onValueChange = viewModel::onPasswordChange,
             label = { Text("Password") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
@@ -88,13 +79,11 @@ fun RegistrationScreen(
         )
 
         Button(
-            onClick = {
-                if (isLoginMode) {
-                    viewModel.login()
-                } else {
-//                    viewModel.register(name, email, password)
-                }
-            },
+            onClick = if (isLoginMode)
+                viewModel::onLoginClick
+            else
+                viewModel::onSignupClick,
+
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
