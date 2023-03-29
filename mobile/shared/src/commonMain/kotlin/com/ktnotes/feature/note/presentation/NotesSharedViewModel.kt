@@ -19,6 +19,7 @@ open class NotesSharedViewModel(
     init {
         isLoggedIn()
         observerNotes()
+        syncNotes()
     }
 
     private fun observerNotes() {
@@ -33,11 +34,27 @@ open class NotesSharedViewModel(
         }
     }
 
+    private fun syncNotes() {
+        viewModelScope.launch {
+            runCatching {
+                noteRepository.getNotesFromRemote()
+            }.onFailure {
+                _notesState.update { it.copy(error = "Failed to sync notes") }
+            }
+        }
+    }
+
     fun deleteNote(id: String) {
         _notesState.update { NotesUiState(isLoading = true) }
 
         viewModelScope.launch {
-            noteRepository.deleteNoteById(id)
+            runCatching {
+                noteRepository.deleteNoteById(id)
+            }.onFailure {
+                _notesState.update {
+                    it.copy(error = "Failed to delete message")//todo figure out get string in kmm way
+                }
+            }
         }
     }
 
