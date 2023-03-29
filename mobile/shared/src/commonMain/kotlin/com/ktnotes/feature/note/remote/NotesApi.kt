@@ -21,7 +21,7 @@ interface NotesApi {
 
 class NotesApiImpl(private val httpClient: HttpClient) : NotesApi {
     override suspend fun saveNote(noteRequest: NoteRequest): NoteResponse {
-        return httpClient.postWithJsonContent("") {
+        return httpClient.postWithJsonContent("note/new") {
             setBody(noteRequest)
         }.body()
     }
@@ -45,7 +45,5 @@ class NotesApiImpl(private val httpClient: HttpClient) : NotesApi {
             setBody(pinRequest)
         }.body()
     }
-
-
 }
 

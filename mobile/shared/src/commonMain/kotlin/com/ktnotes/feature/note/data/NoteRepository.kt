@@ -8,7 +8,9 @@ import com.ktnotes.feature.note.remote.PinRequest
 import kotlinx.coroutines.flow.Flow
 
 interface NoteRepository {
+    suspend fun getNotesFromRemote()
     suspend fun insertNote(title: String, note: String)
+    suspend fun updateNote(note: Note)
     suspend fun getNoteById(id: String): Note?
     suspend fun getAllNotes(): Flow<List<Note>>
     suspend fun deleteNoteById(id: String)
@@ -22,17 +24,23 @@ class NoteRepositoryImpl(
 ) : NoteRepository {
 
     override suspend fun getAllNotes(): Flow<List<Note>> {
+        return notesDao.getAllNotes()
+    }
 
+    override suspend fun getNotesFromRemote() {
         //todo use worker to sync notes
         val notes = notesApi.getAllNotes().result
         notesDao.insertNotes(notes)
-
-        return notesDao.getAllNotes()
     }
 
     override suspend fun insertNote(title: String, note: String) {
         val noteResponse = notesApi.saveNote(NoteRequest(title, note))
         notesDao.insertNote(noteResponse.result)
+    }
+
+    override suspend fun updateNote(note: Note) {
+        notesApi.updateNote(note)//TODO: update update note response
+        notesDao.updateNote(note)
     }
 
     override suspend fun getNoteById(id: String): Note? {
