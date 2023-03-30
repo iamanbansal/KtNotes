@@ -45,7 +45,7 @@ open class NotesSharedViewModel(
     }
 
     fun deleteNote(id: String) {
-        _notesState.update { NotesUiState(isLoading = true) }
+        _notesState.update { it.copy(isLoading = true) }
 
         viewModelScope.launch {
             runCatching {
@@ -55,6 +55,15 @@ open class NotesSharedViewModel(
                     it.copy(error = "Failed to delete message")//todo figure out get string in kmm way
                 }
             }
+        }
+    }
+
+    fun logout(){
+        _notesState.update { it.copy(isLoading = true) }
+        viewModelScope.launch {
+            sessionManager.clearSession()
+            noteRepository.clearAll()
+            _notesState.update { NotesUiState(isUserLoggedIn = false) }
         }
     }
 

@@ -8,6 +8,7 @@ interface SessionManager {
     fun getToken(): String
     fun getRefreshToken(): String
     fun getTokenPair(): TokenPair
+    fun clearSession()
 }
 
 class SessionManagerImpl(private val settings: Settings) : SessionManager {
@@ -23,6 +24,10 @@ class SessionManagerImpl(private val settings: Settings) : SessionManager {
 
     override fun getTokenPair(): TokenPair {
         return TokenPair(getToken(), getRefreshToken())
+    }
+
+    override fun clearSession() {
+        settings.clear()
     }
 
     companion object {
