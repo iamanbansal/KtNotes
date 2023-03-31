@@ -10,18 +10,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -31,6 +34,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -69,20 +74,19 @@ fun NoteListScreen(
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            if (state.isLoading && state.notes.isEmpty()) {
+            IconButton(
+                onClick = viewModel::logout, modifier = Modifier
+                    .padding(16.dp)
+                    .wrapContentHeight()
+                    .align(Alignment.End)
+            ) {
+                Icon(Icons.Filled.ExitToApp, contentDescription = null)
+            }
+            if (state.isLoading) {
                 CircularProgressIndicator(Modifier.align(Alignment.CenterHorizontally))
             }
-
-            Button(onClick = onLoggedOut) {
-                Text(text = "logout")
-            }
-            LazyColumn(
-                modifier = Modifier.weight(1f)
-            ) {
-                items(
-                    items = state.notes,
-
-                    ) { note ->
+            LazyColumn {
+                items(items = state.notes) { note ->
                     NoteItem(
                         note = note,
                         onNoteClick = {
@@ -138,7 +142,11 @@ fun NoteItem(
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = note.note, fontWeight = FontWeight.Light)
+            Text(
+                text = note.note, fontWeight = FontWeight.Light,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = formattedDate,

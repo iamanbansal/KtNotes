@@ -46,7 +46,8 @@ object Dependencies {
         const val runtime = "com.squareup.sqldelight:runtime:${sqlDelightVersion}"
         const val androidDriver = "com.squareup.sqldelight:android-driver:${sqlDelightVersion}"
         const val nativeDriver = "com.squareup.sqldelight:native-driver:${sqlDelightVersion}"
-        const val coroutineExtension = "com.squareup.sqldelight:coroutines-extensions:${sqlDelightVersion}"
+        const val coroutineExtension =
+            "com.squareup.sqldelight:coroutines-extensions:${sqlDelightVersion}"
     }
 
     object Kotlinx {
@@ -74,9 +75,11 @@ object Dependencies {
     }
 
     object Koin {
-        private const val koinVersion = "3.3.3"
+        private const val koinVersion = "3.4.0"
         const val core = "io.insert-koin:koin-core:${koinVersion}"
         const val test = "io.insert-koin:koin-test:${koinVersion}"
+        const val koinAndroid = "io.insert-koin:koin-android:${koinVersion}"
+        const val koinAndroidCompose = "io.insert-koin:koin-androidx-compose:3.4.3"
         const val testJUnit4 = "io.insert-koin:koin-test-junit4:${koinVersion}"
     }
 
