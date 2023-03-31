@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
@@ -17,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -65,6 +67,9 @@ fun NoteDetailScreen(
                 .padding(padding)
                 .padding(16.dp)
         ) {
+            if (state.isLoading) {
+                CircularProgressIndicator(Modifier.align(Alignment.CenterHorizontally))
+            }
             OutlinedTextField(
                 value = fieldsState.title,
                 onValueChange = viewModel::onNoteTitleChanged,
