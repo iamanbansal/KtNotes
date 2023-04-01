@@ -114,9 +114,6 @@ fun NoteItem(
     onNoteClick: () -> Unit,
     onDeleteClick: () -> Unit,
 ) {
-    val formattedDate = remember(note.created) {
-        note.created.toString()
-    }
     Card(modifier = Modifier
         .padding(8.dp)
         .clickable { onNoteClick() }
@@ -149,7 +146,7 @@ fun NoteItem(
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = formattedDate,
+                text = note.formattedCreatedDate,
                 color = Color.DarkGray,
                 modifier = Modifier.align(Alignment.End)
             )

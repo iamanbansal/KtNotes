@@ -1,5 +1,6 @@
 package com.ktnotes.feature.note.model
 
+import com.ktnotes.util.DateTimeUtil
 import kotlinx.serialization.Serializable
 
 
@@ -11,5 +12,8 @@ data class Note(
     val created: Long,
     val updated: Long,
     val isPinned: Boolean
-)
+) {
+    val formattedCreatedDate: String =
+        DateTimeUtil.formatNoteDate(DateTimeUtil.toLocalDateTime(created))
+}
 
