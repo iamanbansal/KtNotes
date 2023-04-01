@@ -15,6 +15,8 @@ struct NoteListScreen: View {
         @State private var isNoteSelected = false
         @State private var selectedNoteId: String=""
     @StateObject var viewModel = ObservableNotesModel()
+    
+    @State var isActivateCalled = false
 
     var body: some View {
         VStack {
@@ -45,10 +47,15 @@ struct NoteListScreen: View {
             }
         }
         .onAppear {
-            viewModel.activate()
+            if !isActivateCalled {
+                viewModel.activate()
+                isActivateCalled = true
+            }
         }
         .onDisappear{
-            viewModel.deactivate()
+            if !isNoteSelected{
+                viewModel.deactivate()
+            }
         }
         .onChange(of: viewModel.uiState?.isUserLoggedIn , perform: { isUserLoggedIn in
             if isUserLoggedIn == false {
@@ -60,11 +67,10 @@ struct NoteListScreen: View {
         .navigationBarItems(
             leading: HStack {
                 
-                NavigationLink(destination: NoteDetailsView(id: NoteDetailsSharedViewModelKt.NEW_NOTE_ID)) {
-                                    Image(systemName: "plus")
-                                }
-                            
-                
+                Button(action: {
+                    isNoteSelected = true
+                    selectedNoteId = NoteDetailsSharedViewModelKt.NEW_NOTE_ID
+                }, label: {Image(systemName: "plus")})
             },
             
             trailing: Button(action: {
@@ -100,7 +106,7 @@ struct NoteItem: View {
             
             HStack {
                 Spacer()
-                Text(String(note.created))
+                Text(note.formattedCreatedDate)
                     .font(.footnote)
                     .fontWeight(.light)
             }
