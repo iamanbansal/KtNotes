@@ -1,5 +1,6 @@
 package com.ktnotes.android
 
+import com.ktnotes.android.feature.auth.LoginFieldsState
 import com.ktnotes.feature.auth.presentation.AuthSharedViewModel
 import com.ktnotes.feature.auth.remote.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -3,6 +3,7 @@ package com.ktnotes.di
 import com.ktnotes.database.KtNotesDatabase
 import com.ktnotes.feature.auth.presentation.AuthCallbackViewModel
 import com.ktnotes.feature.note.NotesCallbackViewModel
+import com.ktnotes.feature.note.details.NoteDetailsCallbackVM
 import com.russhwolf.settings.NSUserDefaultsSettings
 import com.russhwolf.settings.Settings
 import com.squareup.sqldelight.db.SqlDriver
@@ -18,6 +19,7 @@ actual fun platformModule(): Module = module {
     single { getNativeSqliteDriver() }
     factory { AuthCallbackViewModel(get()) }
     factory { NotesCallbackViewModel(get(), get()) }
+    factory { NoteDetailsCallbackVM(get()) }
 }
 
 private fun getNSUDefaults(): Settings = NSUserDefaultsSettings(NSUserDefaults(PREFERENCE_NAME))
