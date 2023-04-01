@@ -17,7 +17,6 @@ data class Note(
 ) {
     companion object {
         fun fromResultRow(row: ResultRow): Note = with(NotesTable) {
-            LocalDateTime.now()
             return Note(
                 row[id].value.toString(),
                 row[title],
