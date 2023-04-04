@@ -14,13 +14,13 @@ suspend fun ApplicationCall.ok(response: Response) {
 }
 
 suspend fun ApplicationCall.notFound(cause: Throwable) {
-    respondText(status = HttpStatusCode.NotFound, text = cause.message!!)
+    respond(HttpStatusCode.NotFound, MessageResponse(cause.message!!))
 }
 
 suspend fun ApplicationCall.badRequest(cause: Throwable) {
-    respondText(status = HttpStatusCode.BadRequest, text = cause.message!!)
+    respond(HttpStatusCode.BadRequest, MessageResponse(cause.message!!))
 }
 
 suspend fun ApplicationCall.unauthorized(cause: Throwable) {
-    respondText(status = HttpStatusCode.Unauthorized, text = cause.message!!)
+    respond(HttpStatusCode.Unauthorized, MessageResponse(cause.message!!))
 }

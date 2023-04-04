@@ -80,9 +80,8 @@ fun Route.notesRouting(appComponent: ApplicationComponent) {
                 throw BadRequestException("JSON malformed")
             }
 
-            notesController.update(noteRequest, userId, noteId)
-
-            call.ok(MessageResponse("Note updated successfully!"))
+            val response = notesController.update(noteRequest, userId, noteId)
+            call.ok(response)
         }
 
         delete("/{id}") {
