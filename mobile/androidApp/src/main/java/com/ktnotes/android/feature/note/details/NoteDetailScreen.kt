@@ -36,15 +36,10 @@ fun NoteDetailScreen(
     val state by viewModel.noteState.collectAsState()
     val fieldsState by viewModel.fieldState.collectAsState()
 
-    LaunchedEffect(state.finishSaving) {
-        if (state.finishSaving) {
-            navController.popBackStack()
-        }
+    if (state.finishSaving) {
+        navController.popBackStack()
     }
 
-    LaunchedEffect(key1 = noteId) {
-        viewModel.getNoteDetails(noteId)
-    }
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -88,5 +83,9 @@ fun NoteDetailScreen(
                 label = { Text("Content") }
             )
         }
+    }
+
+    LaunchedEffect(key1 = noteId) {
+        viewModel.getNoteDetails(noteId)
     }
 }

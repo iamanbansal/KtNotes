@@ -3,6 +3,7 @@ package com.ktnotes.di
 import com.ktnotes.feature.auth.model.AuthResponse
 import com.ktnotes.feature.auth.model.RefreshTokenRequest
 import com.ktnotes.helper.postWithJsonContent
+import com.ktnotes.model.MessageResponse
 import com.ktnotes.session.SessionManager
 import com.ktnotes.session.TokenPair
 import io.ktor.client.HttpClient
@@ -22,9 +23,8 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import io.ktor.http.withCharset
 import io.ktor.serialization.kotlinx.json.json
-import io.ktor.utils.io.charsets.Charsets
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
@@ -101,9 +101,9 @@ fun createHttpClient(
 
         HttpResponseValidator {
             validateResponse { response: HttpResponse ->
-                if (response.status == HttpStatusCode.BadRequest) {
-                    if (response.contentType() == ContentType.Text.Plain.withCharset(Charsets.UTF_8))
-                        throw Exception(response.body<String>())
+                if (response.status == HttpStatusCode.BadRequest && response.contentType() == ContentType.Application.Json) {
+                    val messageResponse = Json.decodeFromString<MessageResponse>(response.body())
+                    throw Exception(messageResponse.message)
                 }
             }
         }
