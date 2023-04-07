@@ -14,7 +14,7 @@ interface NotesApi {
     suspend fun saveNote(noteRequest: NoteRequest): NoteResponse
     suspend fun getAllNotes(): NotesResponse
     suspend fun deleteNote(id: String): MessageResponse
-    suspend fun updateNote(note: Note): MessageResponse
+    suspend fun updateNote(note: Note): NoteResponse
     suspend fun pinNote(id: String, pinRequest: PinRequest): NoteResponse
 }
 
@@ -34,7 +34,7 @@ class NotesApiImpl(private val httpClient: HttpClient) : NotesApi {
         return httpClient.delete("note/$id").body()
     }
 
-    override suspend fun updateNote(note: Note): MessageResponse {
+    override suspend fun updateNote(note: Note): NoteResponse {
         return httpClient.putWithJsonContent("note/${note.id}") {
             setBody(note)
         }.body()

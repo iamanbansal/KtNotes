@@ -39,8 +39,8 @@ class NoteRepositoryImpl(
     }
 
     override suspend fun updateNote(note: Note) {
-        notesApi.updateNote(note)//TODO: update update note response
-        notesDao.updateNote(note)
+        val noteResponse = notesApi.updateNote(note)
+        notesDao.updateNote(noteResponse.result)
     }
 
     override suspend fun getNoteById(id: String): Note? {
