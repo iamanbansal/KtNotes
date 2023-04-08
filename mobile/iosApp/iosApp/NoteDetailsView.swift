@@ -78,35 +78,37 @@ struct NoteDetailsView:View {
 
 class ObservableNoteDetailsModel: ObservableObject {
 
-    private var viewmodel: NoteDetailsCallbackVM?
+    private var viewmodel = KotlinDependencies.shared.getNoteDetailsViewModel()
     private var cancellables = [AnyCancellable]()
-
+    let adapter:FlowAdapter<NoteDetailsUiState>?
   
     @Published var uiState:NoteDetailsUiState?
+    
+    init(){
+        adapter = FlowAdapter<NoteDetailsUiState>(scope:viewmodel.viewModelScope, flow:viewmodel.noteState)
+    }
 
     func activate(id:String){
-        let viewmodel  =  KotlinDependencies.shared.getNoteDetailsViewModel()
 
-        doPublish(viewmodel.stateAdapter){[weak self] authState in
-            self?.uiState = authState
+        doPublish(adapter!){[weak self] uiState in
+            self?.uiState = uiState
         }
         .store(in: &cancellables)
-        
+
         viewmodel.getNoteDetails(id: id)
-        
-        self.viewmodel = viewmodel
     }
     
     func saveNote(title:String, content:String){
-        viewmodel?.saveNote(title: title, content: content)
+        viewmodel.saveNote(title: title, content: content)
     }
     
     func deactivate(){
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
-
-        viewmodel?.clear()
-        viewmodel = nil
+    }
+    
+    deinit{
+        viewmodel.clear()
     }
 }
 

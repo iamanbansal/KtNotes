@@ -1,9 +1,8 @@
 package com.ktnotes.di
 
-import com.ktnotes.feature.auth.presentation.AuthCallbackViewModel
-import com.ktnotes.feature.note.NotesCallbackViewModel
-import com.ktnotes.feature.note.details.NoteDetailsCallbackVM
+import com.ktnotes.feature.auth.presentation.AuthSharedViewModel
 import com.ktnotes.feature.note.details.NoteDetailsSharedViewModel
+import com.ktnotes.feature.note.presentation.NotesSharedViewModel
 import org.koin.dsl.module
 
 fun initKoin() {
@@ -17,7 +16,7 @@ fun initKoin() {
 
 object KotlinDependencies {
     //to get from shared koin dependencies
-    fun getCallbackAuthViewModel(): AuthCallbackViewModel = koin()
-    fun getNotesViewModel(): NotesCallbackViewModel = koin()
-    fun getNoteDetailsViewModel(): NoteDetailsCallbackVM = koin()
+    fun getAuthViewModel(): AuthSharedViewModel = koin()
+    fun getNotesViewModel(): NotesSharedViewModel = koin()
+    fun getNoteDetailsViewModel(): NoteDetailsSharedViewModel = koin()
 }

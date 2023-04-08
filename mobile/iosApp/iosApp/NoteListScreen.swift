@@ -2,7 +2,7 @@
 //  NoteListScreen.swift
 //  iosApp
 //
-//  Copyright © 2023 orgName. All rights reserved.
+//  Copyright © 2023 Aman Bansal. All rights reserved.
 //
 
 import SwiftUI
@@ -12,12 +12,10 @@ import Combine
 struct NoteListScreen: View {
     var onLogout:()->Void
     
-        @State private var isNoteSelected = false
-        @State private var selectedNoteId: String=""
+    @State private var isNoteSelected = false
+    @State private var selectedNoteId: String=""
     @StateObject var viewModel = ObservableNotesModel()
-    
-    @State var isActivateCalled = false
-
+ 
     var body: some View {
         VStack {
             NavigationLink(destination: NoteDetailsView(id: selectedNoteId), isActive: $isNoteSelected){
@@ -47,10 +45,7 @@ struct NoteListScreen: View {
             }
         }
         .onAppear {
-            if !isActivateCalled {
-                viewModel.activate()
-                isActivateCalled = true
-            }
+            viewModel.activate()
         }
         .onDisappear{
             if !isNoteSelected{
@@ -118,39 +113,39 @@ struct NoteItem: View {
 
 class ObservableNotesModel: ObservableObject {
     
-    private var viewmodel: NotesCallbackViewModel?
+    private var viewmodel: NotesSharedViewModel = KotlinDependencies.shared.getNotesViewModel()
     private var cancellables = [AnyCancellable]()
-    
+    let adapter:FlowAdapter<NotesUiState>?
     
     @Published var uiState:NotesUiState?
-    
+
+    init(){
+        adapter = FlowAdapter<NotesUiState>(scope:viewmodel.viewModelScope, flow:viewmodel.notesState)
+    }
+                                    
     func activate(){
-        let viewmodel  =  KotlinDependencies.shared.getNotesViewModel()
-        
-        doPublish(viewmodel.stateAdapter){[weak self] notesState in
-           
+        doPublish(adapter!){[weak self] notesState in
+
             self?.uiState = notesState
         }
         .store(in: &cancellables)
-        
-        
-        self.viewmodel = viewmodel
     }
     
     func deleteNote(id:String){
-        viewmodel?.deleteNote(id: id)
+        viewmodel.deleteNote(id: id)
     }
     
     func logout(){
-        viewmodel?.logout()
+        viewmodel.logout()
     }
     
     func deactivate(){
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
-
-        viewmodel?.clear()
-        viewmodel = nil
+    }
+    
+    deinit{
+        viewmodel.clear()
     }
 }
 
@@ -161,4 +156,3 @@ struct NoteListScreen_Previews: PreviewProvider {
         NoteListScreen(onLogout: {})
     }
 }
-

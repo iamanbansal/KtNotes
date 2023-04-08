@@ -83,40 +83,41 @@ struct LoginView: View {
 
 class ObservableAuthModel: ObservableObject {
     
-    private var viewmodel: AuthCallbackViewModel?
+    private var viewmodel = KotlinDependencies.shared.getAuthViewModel()
     private var cancellables = [AnyCancellable]()
+    let adapter:FlowAdapter<LoginUiState>?
     
-    @Published var error: String?
     @Published var uiState:LoginUiState?
     
+    init(){
+        adapter = FlowAdapter<LoginUiState>(scope:viewmodel.viewModelScope, flow:viewmodel.state)
+    }
+    
     func activate(){
-        let viewmodel  =  KotlinDependencies.shared.getCallbackAuthViewModel()
-        
-        doPublish(viewmodel.stateAdapter){[weak self] authState in
-            self?.error = authState.message
+        doPublish(adapter!){[weak self] authState in
+           
             self?.uiState = authState
         }
         .store(in: &cancellables)
-        
-        
-        self.viewmodel = viewmodel
     }
+    
     func login(email: String, password: String) {
-        // Login logic
-        viewmodel?.login(email: email, password: password)
+        
+        viewmodel.login(email: email, password: password)
     }
 
     func register(name: String, email: String, password: String) {
-        viewmodel?.register(name: name, email: email, password: password)
+        viewmodel.register(name: name, email: email, password: password)
     }
     
     func deactivate(){
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
-
-        viewmodel?.clear()
-        viewmodel = nil
-}
+    }
+    
+    deinit{
+        viewmodel.clear()
+    }
 }
 
 struct Login_Previews: PreviewProvider {

@@ -39,7 +39,7 @@ open class NotesSharedViewModel(
             runCatching {
                 noteRepository.getNotesFromRemote()
             }.onFailure {
-                _notesState.update { it.copy(isLoading = false,error = "Failed to sync notes") }
+                _notesState.update { it.copy(isLoading = false, error = "Failed to sync notes") }
             }
         }
     }
@@ -52,13 +52,13 @@ open class NotesSharedViewModel(
                 noteRepository.deleteNoteById(id)
             }.onFailure {
                 _notesState.update {
-                    it.copy(isLoading = false,error = "Failed to delete message")//todo figure out get string in kmm way
+                    it.copy(isLoading = false, error = "Failed to delete message")//todo figure out get string in kmm way
                 }
             }
         }
     }
 
-    fun logout(){
+    fun logout() {
         _notesState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             sessionManager.clearSession()
