@@ -1,5 +1,6 @@
 package com.ktnotes.di
 
+import com.ktnotes.exception.BadRequestException
 import com.ktnotes.feature.auth.model.AuthResponse
 import com.ktnotes.feature.auth.model.RefreshTokenRequest
 import com.ktnotes.helper.postWithJsonContent
@@ -103,7 +104,7 @@ fun createHttpClient(
             validateResponse { response: HttpResponse ->
                 if (response.status == HttpStatusCode.BadRequest && response.contentType() == ContentType.Application.Json) {
                     val messageResponse = Json.decodeFromString<MessageResponse>(response.body())
-                    throw Exception(messageResponse.message)
+                    throw BadRequestException(messageResponse.message)
                 }
             }
         }
