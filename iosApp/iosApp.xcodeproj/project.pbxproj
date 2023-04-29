@@ -11,6 +11,9 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
+		A53BEDC729FBE77100B6C769 /* NoteDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53BEDC429FBE77100B6C769 /* NoteDetailsView.swift */; };
+		A53BEDC829FBE77100B6C769 /* NoteListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53BEDC529FBE77100B6C769 /* NoteListScreen.swift */; };
+		A53BEDC929FBE77100B6C769 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53BEDC629FBE77100B6C769 /* RegistrationView.swift */; };
 		A566517029C49C3600EB0DFD /* CombineAdapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A566516F29C49C3600EB0DFD /* CombineAdapters.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +37,9 @@
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A53BEDC429FBE77100B6C769 /* NoteDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteDetailsView.swift; sourceTree = "<group>"; };
+		A53BEDC529FBE77100B6C769 /* NoteListScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteListScreen.swift; sourceTree = "<group>"; };
+		A53BEDC629FBE77100B6C769 /* RegistrationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		A566516F29C49C3600EB0DFD /* CombineAdapters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineAdapters.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,6 +83,9 @@
 			children = (
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF82242A565900829871 /* ContentView.swift */,
+				A53BEDC429FBE77100B6C769 /* NoteDetailsView.swift */,
+				A53BEDC529FBE77100B6C769 /* NoteListScreen.swift */,
+				A53BEDC629FBE77100B6C769 /* RegistrationView.swift */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
@@ -177,9 +186,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A53BEDC829FBE77100B6C769 /* NoteListScreen.swift in Sources */,
 				A566517029C49C3600EB0DFD /* CombineAdapters.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				A53BEDC929FBE77100B6C769 /* RegistrationView.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				A53BEDC729FBE77100B6C769 /* NoteDetailsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

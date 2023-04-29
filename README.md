@@ -18,13 +18,11 @@ Navigate to [`/api`](/api) directory to browse and know more about backend API.
 - [Exposed ORM](https://github.com/JetBrains/Exposed)
 - [JBCrypt](https://mvnrepository.com/artifact/org.mindrot/jbcrypt)
 
-## [KtNotes Mobile App](/mobile)
+## KtNotes Mobile App
 
-An Android and iOS app built using [Kotlin Multiplatforom](https://kotlinlang.org/docs/multiplatform.html) that consumes KtNotes APIs.
+An Android and iOS app built using [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) that consumes KtNotes APIs.
 
 [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) is a framework of Kotlin that allows for sharing of a single codebase for business logic across different [targets](https://kotlinlang.org/docs/multiplatform-dsl-reference.html#targets)/platforms. Some of the targets supported by kotlin are: Android, iOS, Kotlin/JVM, Kotlin/JS, Android NDK, Windows, Linux, macOS etc.
-
-Navigate to [`/mobile`](/mobile) directory to browse and know more about Noty Android project.
 
 ### Modules
 The mobile has been split into 3 main modules:

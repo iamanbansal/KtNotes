@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "KtNotes"
 include(":androidApp")
 include(":shared")
+include(":api")

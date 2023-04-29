@@ -6,12 +6,11 @@ val h2_version: String by project
 val exposed_version: String by project
 
 plugins {
-    kotlin("jvm") version "1.8.10"
+    kotlin("jvm") version Dependencies.kotlinVersion
     id("io.ktor.plugin") version "2.2.3"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
+    kotlin(Dependencies.Plugins.serialization) version Dependencies.kotlinVersion
 }
 
-group = "com.ktnotes"
 version = "0.0.1"
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
