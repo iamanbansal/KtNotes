@@ -1,0 +1,42 @@
+name: Android CI
+
+on:
+  push:
+    branch: main
+    paths-ignore:
+      - 'api/**'
+      - 'iosApp/**'
+  pull_request:
+    paths-ignore:
+      - 'api/**'
+      - 'iosApp/**'
+
+# Cancel any current or previous job from the same PR
+concurrency:
+  group: android-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-android:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        lfs: 'true'
+
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'corretto'
+        java-version: 17
+
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
+
+    - name: Unit Tests
+      run: ./gradlew :androidApp:test
+
+    - name: Shared Unit Tests
+      run: ./gradlew :shared:test
+
+    - name: Build
+      run: ./gradlew :androidApp:assembleDebug
