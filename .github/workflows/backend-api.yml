@@ -3,9 +3,11 @@ on:
   push:
     paths:
       - 'api/**'
+      - ".github/workflows/**"
   pull_request:
     paths:
       - 'api/**'
+      - ".github/workflows/**"
 
 jobs:
   build-backend:
