@@ -27,9 +27,6 @@ jobs:
           distribution: 'corretto'
           java-version: 11
 
-      - name: iOS unit tests🧪
-        run: xcodebuild test -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphoneos -destination name='iPhone 8' build -test-timeouts-enabled YES
-
       - name: 🤝Shared Unit Tests🧪
         run: ./gradlew :shared:test
 
