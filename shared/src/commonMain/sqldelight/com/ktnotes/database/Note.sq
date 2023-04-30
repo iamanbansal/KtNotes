@@ -28,3 +28,11 @@ DELETE FROM NoteEntity WHERE id = ?;
 
 clearAllNotes:
 DELETE FROM NoteEntity;
+
+getUnsyncedNotes:
+SELECT NoteEntity.*, NoteQueue.operation
+FROM NoteEntity
+INNER JOIN NoteQueue ON NoteQueue.noteId = NoteEntity.id;
+
+deleteNotesNotIn:
+DELETE FROM NoteEntity WHERE id NOT IN :list;

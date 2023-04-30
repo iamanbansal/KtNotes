@@ -3,6 +3,8 @@ package com.ktnotes.feature.note.db
 import com.ktnotes.database.KtNotesDatabase
 import com.ktnotes.feature.note.mapper
 import com.ktnotes.feature.note.model.Note
+import com.ktnotes.feature.note.model.NoteWithOperation
+import com.ktnotes.feature.note.noteOpMapper
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.flow.Flow
@@ -14,6 +16,7 @@ interface NotesDao {
     suspend fun getAllNotes(): Flow<List<Note>>
     suspend fun deleteNoteById(id: String)
     suspend fun updateNote(note: Note)
+    suspend fun getUnsyncedNotes(): List<NoteWithOperation>
     suspend fun clearAll()
 }
 
@@ -41,6 +44,10 @@ class NotesDaoImpl(notesDatabase: KtNotesDatabase) : NotesDao {
             updatedAt = note.updated,
             isPinned = note.isPinned
         )
+    }
+
+    override suspend fun getUnsyncedNotes(): List<NoteWithOperation> {
+        return queries.getUnsyncedNotes(noteOpMapper).executeAsList()
     }
 
     override suspend fun getNoteById(id: String): Note? {
