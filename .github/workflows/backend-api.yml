@@ -9,16 +9,21 @@ on:
       - 'api/**'
       - ".github/workflows/**"
 
+# Cancel any current or previous job from the same PR
+concurrency:
+  group: api-${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   build-backend:
     name: Build API
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
+        with:
+          lfs: 'true'
 
-      - name: Set up JDK
-        uses: actions/setup-java@v1
+      - uses: actions/setup-java@v3
         with:
           distribution: 'corretto'
           java-version: 11
