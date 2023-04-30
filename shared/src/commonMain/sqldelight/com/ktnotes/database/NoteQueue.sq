@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS NoteQueue(
+  noteId TEXT NOT NULL,
+  operation INTEGER NOT NULL
+);
+
+getUnsyncedNotesOp:
+SELECT * FROM NoteQueue;
+
+insertOrReplaceNote:
+INSERT OR REPLACE INTO NoteQueue(
+noteId,
+operation
+) VALUES (?,?);
+
+clearUnsyncedRows:
+DELETE FROM NoteQueue;
+
+deleteNoteOpById:
+DELETE FROM NoteQueue WHERE noteId = ?;
+
