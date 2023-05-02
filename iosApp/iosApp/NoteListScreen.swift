@@ -32,7 +32,7 @@ struct NoteListScreen: View {
                             NoteItem(
                                 note: note,
                                 onDeleteClick: {
-                                viewModel.deleteNote(id: note.id)
+                                    viewModel.deleteNote(note: note)
                                 })
                         }
                     }
@@ -131,8 +131,8 @@ class ObservableNotesModel: ObservableObject {
         .store(in: &cancellables)
     }
     
-    func deleteNote(id:String){
-        viewmodel.deleteNote(id: id)
+    func deleteNote(note: Note){
+        viewmodel.deleteNote(note: note)
     }
     
     func logout(){

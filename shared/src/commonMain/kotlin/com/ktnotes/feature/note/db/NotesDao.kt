@@ -15,9 +15,11 @@ interface NotesDao {
     suspend fun getNoteById(id: String): Note?
     suspend fun getAllNotes(): Flow<List<Note>>
     suspend fun deleteNoteById(id: String)
+    suspend fun deleteNotIn(noteIds: List<String>)
     suspend fun updateNote(note: Note)
     suspend fun getUnsyncedNotes(): List<NoteWithOperation>
     suspend fun clearAll()
+    suspend fun insertNotesAndDeleteNotIn(newNotes: List<Note>)
 }
 
 
@@ -71,6 +73,19 @@ class NotesDaoImpl(notesDatabase: KtNotesDatabase) : NotesDao {
             updatedAt = note.updated,
             isPinned = note.isPinned
         )
+    }
+
+    override suspend fun insertNotesAndDeleteNotIn(newNotes: List<Note>) {
+        queries.transaction {
+            queries.deleteNotesNotIn(newNotes.map { it.id })
+            newNotes.forEach {
+                insert(it)
+            }
+        }
+    }
+
+    override suspend fun deleteNotIn(noteIds: List<String>) {
+        queries.deleteNotesNotIn(noteIds)
     }
 
     override suspend fun clearAll() {

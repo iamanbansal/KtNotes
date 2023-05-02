@@ -9,8 +9,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ktnotes.android.feature.auth.RegistrationScreen
 import com.ktnotes.android.feature.note.NoteListScreen
-import com.ktnotes.feature.note.details.NEW_NOTE_ID
 import com.ktnotes.android.feature.note.details.NoteDetailScreen
+import com.ktnotes.feature.note.details.NEW_NOTE_ID
 
 const val NAV_HOST_ROUTE = "main-route"
 
@@ -52,7 +52,9 @@ fun KtNotesNavigation() {
 
             NoteDetailScreen(
                 noteId = noteId,
-                navController = navController,
+                onFinishSaving = {
+                    navController.popBackStack()
+                }
             )
         }
 
