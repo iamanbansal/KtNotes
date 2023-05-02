@@ -25,20 +25,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 
 @Composable
 fun NoteDetailScreen(
     noteId: String,
-    navController: NavController,
-    viewModel: NoteDetailViewModel = hiltViewModel()
+    viewModel: NoteDetailViewModel = hiltViewModel(),
+    onFinishSaving:()->Unit
 ) {
     val state by viewModel.noteState.collectAsState()
     val fieldsState by viewModel.fieldState.collectAsState()
-
-    if (state.finishSaving) {
-        navController.popBackStack()
-    }
 
     Scaffold(
         floatingActionButton = {
@@ -87,5 +82,11 @@ fun NoteDetailScreen(
 
     LaunchedEffect(key1 = noteId) {
         viewModel.getNoteDetails(noteId)
+    }
+
+    LaunchedEffect(key1 = state.finishSaving){
+        if (state.finishSaving) {
+            onFinishSaving()
+        }
     }
 }

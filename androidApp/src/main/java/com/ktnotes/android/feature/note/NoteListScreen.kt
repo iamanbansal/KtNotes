@@ -88,7 +88,7 @@ fun NoteListScreen(
                     NoteItem(note = note, onNoteClick = {
                         onNoteClick(note.id)
                     }, onDeleteClick = {
-                        viewModel.deleteNote(note.id)
+                        viewModel.deleteNote(note)
                     })
                 }
             }

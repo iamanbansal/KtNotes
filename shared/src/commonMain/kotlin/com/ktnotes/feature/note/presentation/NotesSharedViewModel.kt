@@ -1,6 +1,7 @@
 package com.ktnotes.feature.note.presentation
 
-import com.ktnotes.feature.note.data.NoteRepository
+import com.ktnotes.feature.note.data.NotesService
+import com.ktnotes.feature.note.model.Note
 import com.ktnotes.session.SessionManager
 import com.ktnotes.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,7 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 open class NotesSharedViewModel(
-    private val noteRepository: NoteRepository,
+    private val noteRepository: NotesService,
     private val sessionManager: SessionManager
 ) : ViewModel() {
 
@@ -37,22 +38,25 @@ open class NotesSharedViewModel(
     private fun syncNotes() {
         viewModelScope.launch {
             runCatching {
-                noteRepository.getNotesFromRemote()
-            }.onFailure {
-                _notesState.update { it.copy(isLoading = false, error = "Failed to sync notes") }
+                noteRepository.syncNotes()
+            }.onFailure {throwable->
+                _notesState.update { it.copy(isLoading = false, error = throwable.message) }
             }
         }
     }
 
-    fun deleteNote(id: String) {
+    fun deleteNote(note: Note) {
         _notesState.update { it.copy(isLoading = true) }
 
         viewModelScope.launch {
             runCatching {
-                noteRepository.deleteNoteById(id)
+                noteRepository.deleteNote(note)
             }.onFailure {
                 _notesState.update {
-                    it.copy(isLoading = false, error = "Failed to delete message")//todo figure out get string in kmm way
+                    it.copy(
+                        isLoading = false,
+                        error = "Failed to delete message"
+                    )//todo figure out get string in kmm way
                 }
             }
         }
@@ -61,6 +65,7 @@ open class NotesSharedViewModel(
     fun logout() {
         _notesState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
+            // TODO: sync before logout
             sessionManager.clearSession()
             noteRepository.clearAll()
             _notesState.update { NotesUiState(isUserLoggedIn = false) }

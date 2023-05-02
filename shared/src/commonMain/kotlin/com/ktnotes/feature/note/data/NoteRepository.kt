@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface NoteRepository {
     suspend fun getNotesFromRemote()
+    suspend fun getNotesListFromRemote():List<Note>
     suspend fun insertNote(title: String, note: String)
     suspend fun updateNote(note: Note)
     suspend fun getNoteById(id: String): Note?
@@ -27,6 +28,9 @@ class NoteRepositoryImpl(
         return notesDao.getAllNotes()
     }
 
+    override suspend fun getNotesListFromRemote(): List<Note> {
+        return notesApi.getAllNotes().result
+    }
     override suspend fun getNotesFromRemote() {
         //todo use worker to sync notes
         val notes = notesApi.getAllNotes().result
