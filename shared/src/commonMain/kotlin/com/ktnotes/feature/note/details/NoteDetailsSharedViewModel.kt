@@ -1,6 +1,6 @@
 package com.ktnotes.feature.note.details
 
-import com.ktnotes.feature.note.data.NoteRepository
+import com.ktnotes.feature.note.data.NotesService
 import com.ktnotes.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 const val NEW_NOTE_ID = "new"
 
 open class NoteDetailsSharedViewModel(
-    private val noteRepository: NoteRepository
+    private val noteRepository: NotesService
 ) : ViewModel() {
     private val _noteState = MutableStateFlow(NoteDetailsUiState())
     val noteState = _noteState.asStateFlow()
@@ -39,7 +39,7 @@ open class NoteDetailsSharedViewModel(
                         )
                     }
                 } else {
-                    noteRepository.insertNote(title = title, note = content)
+//                    noteRepository.insertNote(title = title, note = content)
                 }
             }.onSuccess {
                 _noteState.update { it.copy(isLoading = false, finishSaving = true) }
