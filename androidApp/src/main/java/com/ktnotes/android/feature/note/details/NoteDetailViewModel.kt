@@ -1,6 +1,6 @@
 package com.ktnotes.android.feature.note.details
 
-import com.ktnotes.feature.note.data.NoteRepository
+import com.ktnotes.feature.note.data.NotesService
 import com.ktnotes.feature.note.details.NoteDetailsSharedViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.update
 
 @HiltViewModel
 class NoteDetailViewModel @Inject constructor(
-    noteRepository: NoteRepository
+    noteRepository: NotesService
 ) : NoteDetailsSharedViewModel(noteRepository) {
 
     private val _fieldState = MutableStateFlow(NoteFieldsState())
