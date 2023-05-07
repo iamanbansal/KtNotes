@@ -39,7 +39,7 @@ open class NoteDetailsSharedViewModel(
                         )
                     }
                 } else {
-//                    noteRepository.insertNote(title = title, note = content)
+                    noteRepository.insertNote(title = title, note = content)
                 }
             }.onSuccess {
                 _noteState.update { it.copy(isLoading = false, finishSaving = true) }
