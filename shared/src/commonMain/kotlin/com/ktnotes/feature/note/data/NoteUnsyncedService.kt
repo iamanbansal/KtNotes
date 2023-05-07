@@ -23,7 +23,7 @@ class NoteUnsyncedServiceImpl(
 
     override suspend fun executeNoteOp(note: Note, operations: Operations) {
         when (operations) {
-            Operations.INSERT -> {}
+            Operations.INSERT -> localRepo.insertNote(note)
             Operations.UPDATE -> localRepo.updateNote(note)
             Operations.DELETE -> localRepo.deleteNoteById(note.id)
         }

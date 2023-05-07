@@ -5,10 +5,9 @@ import com.ktnotes.feature.note.db.Operations
 import com.ktnotes.feature.note.model.Note
 import com.ktnotes.feature.note.remote.NoteRequest
 import com.ktnotes.feature.note.remote.NotesApi
+import com.ktnotes.util.randomUUID
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 
 
 interface NotesService {
@@ -32,8 +31,20 @@ class NotesServiceImpl(
     }
 
     override suspend fun insertNote(title: String, note: String) {
-        val noteResponse = remoteRepository.saveNote(NoteRequest(title, note))
-        notesDao.insertNote(noteResponse.result)
+        runCatching {
+            val noteResponse = remoteRepository.saveNote(NoteRequest(title, note))
+            notesDao.insertNote(noteResponse.result)
+        }.onFailure {
+            val newNote = Note(
+                randomUUID(),
+                title,
+                note,
+                Clock.System.now().epochSeconds,
+                Clock.System.now().epochSeconds,
+                false
+            )
+            noteUnsyncedService.executeNoteOp(newNote, Operations.INSERT)
+        }
     }
 
     override suspend fun getNoteById(id: String): Note? {
