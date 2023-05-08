@@ -73,11 +73,16 @@ class NotesServiceImpl(
     override suspend fun syncNotes() {
         val notesWithOp = notesDao.getUnsyncedNotes()
 
-        //TODO: build backend which accept note with operation list to avoid item wise item calls
+        //TODO: build backend which accept note with operation list to avoid individual calls for every unsync note
 
         runCatching {
             notesWithOp.forEach {
                 when (it.noteOperation.operation) {
+                    Operations.INSERT.opNum -> {
+                        val noteResponse  = remoteRepository.saveNote(it.note!!)
+                        notesDao.insertNote(noteResponse.result)
+                        notesDao.deleteNoteById(it.note.id)
+                    }
                     Operations.UPDATE.opNum -> remoteRepository.updateNote(it.note!!)
                     Operations.DELETE.opNum -> remoteRepository.deleteNote(it.noteOperation.noteId)
                 }
