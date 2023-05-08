@@ -12,6 +12,7 @@ import io.ktor.client.request.setBody
 
 interface NotesApi {
     suspend fun saveNote(noteRequest: NoteRequest): NoteResponse
+    suspend fun saveNote(note: Note): NoteResponse
     suspend fun getAllNotes(): NotesResponse
     suspend fun deleteNote(id: String): MessageResponse
     suspend fun updateNote(note: Note): NoteResponse
@@ -23,6 +24,12 @@ class NotesApiImpl(private val httpClient: HttpClient) : NotesApi {
     override suspend fun saveNote(noteRequest: NoteRequest): NoteResponse {
         return httpClient.postWithJsonContent("note/new") {
             setBody(noteRequest)
+        }.body()
+    }
+
+    override suspend fun saveNote(note: Note): NoteResponse {
+        return httpClient.postWithJsonContent("note/new") {
+            setBody(note)
         }.body()
     }
 
