@@ -8,8 +8,8 @@ on:
       - 'androidApp/**'
   pull_request:
     paths-ignore:
-    - 'api/**'
-    - 'androidApp/**'
+      - 'api/**'
+      - 'androidApp/**'
 
 # Cancel any current or previous job from the same PR
 concurrency:
